@@ -1,0 +1,29 @@
+- name: My example playbook
+  hosts: nas
+  become: false
+  remote_user: roger
+  vars:
+    favcolor: blue
+  vars_files:
+    - external_vars.yml
+
+  tasks:
+    - name: Copy file
+      ansible.builtin.copy:
+        src: ../watchlist_videos_nas_to_preserve.txt
+        dest: /volume1/other/database
+        owner: roger
+        group: users
+        mode: '0644'
+    - name: Execute Python Script using the script module
+      ansible.builtin.script:
+        cmd: sayhello.py arg1 arg2
+        executable: /usr/bin/python3.8
+      register: result
+    - name: Log result
+      ansible.builtin.debug:
+        msg: "{{ result }}"
+    - name: Remove file
+      ansible.builtin.file:
+        path: /volume1/other/database/watchlist_videos_nas_to_preserve.txt
+        state: absent

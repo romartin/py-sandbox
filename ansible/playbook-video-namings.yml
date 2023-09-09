@@ -1,0 +1,14 @@
+- name: Video renamings
+  hosts: nas
+  become: false
+  remote_user: roger
+
+  tasks:
+    - name: Execute Python Script using the script module
+      ansible.builtin.script:
+        cmd: ../video_namings.py /volume1/video
+        executable: /usr/bin/python3.8
+      register: result
+    - name: Log result
+      ansible.builtin.debug:
+        msg: "{{ result }}"

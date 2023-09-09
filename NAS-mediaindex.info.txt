@@ -1,0 +1,23 @@
+super@DSM:/$ sudo /bin/bash
+Password:
+    bash-4.3# su -s /bin/bash postgres
+    bash-4.3$ whoami
+    postgres
+
+psql
+    \l
+    \c <database>
+    \dt
+
+    \c video_metadata
+    select * from video_file where path like '%Gigg%';
+        id 12969
+        mapper_id 30050
+    select * from collection_map where mapper_id = 30050;
+        collection_id 12
+    select * from video_file where mapper_id = 30050;
+
+    select v.path from collection_map as map, video_file as v where map.collection_id = 12 and map.mapper_id = v.mapper_id;
+
+# psql -d DatabaseName -U UserName -c "SELECT * FROM TABLE" -o /root/Desktop/file.txt
+psql -d video_metadata -c "select v.path from collection_map as map, video_file as v where map.collection_id = 12 and map.mapper_id = v.mapper_id" -o /var/services/pgsql/watchlist_videos_stuff.txt
